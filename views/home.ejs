@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="/style.css">
+    <script src="https://kit.fontawesome.com/9bef998a0e.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="min-vh-100 d-flex justify-content-center align-items-start pt-5">
+    <div class="container">
+        <div class="header d-flex justify-content-between align-items-center bg-secondary text-white p-3">
+            <h1 class=" ">All Contacts</h1>
+            <a href="/add-contact" class="text-white bg-success px-3 py-2 text-decoration-none">Add New</a>
+        </div>
+        <hr>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% contacts.forEach((contact, index)=> { %>
+                    <tr>
+                        <th scope="row">
+                            <%= index + 1 %>
+                        </th>
+                        <td>
+                            <%= contact.firstName %>
+                        </td>
+                        <td>
+                            <%= contact.lastName %>
+                        </td>
+                        <td>
+                            <%= contact.email %>
+                        </td>
+                        <td>
+                            <%= contact.address %>
+                        </td>
+                        <td>
+                            <span class="d-flex gap-2">
+                                <a href="/view-contact/<%= contact._id %>" class="text-secondary icon-hover"><i
+                                        class="fa-solid fa-eye"></i></a>
+                                <a href="/edit-contact/<%= contact._id %>" class="text-success icon-hover"><i
+                                        class="fa-solid fa-pen-to-square"></i></a>
+                                <a href="/delete-contact/<%= contact._id %>" class="text-danger icon-hover"><i
+                                        class="fa-solid fa-trash"></i></a>
+                            </span>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+
+        </table>
+    </div>
+</body>
+
+</html>

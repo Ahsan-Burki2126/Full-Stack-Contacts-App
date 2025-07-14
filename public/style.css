@@ -1,0 +1,11 @@
+.icon-hover.text-secondary:hover i {
+  color: #5c636a; /* Darker gray */
+}
+
+.icon-hover.text-success:hover i {
+  color: #157347; /* Darker green */
+}
+
+.icon-hover.text-danger:hover i {
+  color: #bb2d3b; /* Darker red */
+}

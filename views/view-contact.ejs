@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>View Contact</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<body class="min-vh-100 d-flex justify-content-center align-items-start pt-5">
+    <div class="container">
+        <h2 class="mb-4">Contact Details</h2>
+        <div class="card p-4 shadow">
+            <p><strong>First Name:</strong>
+                <%= user.firstName %>
+                    <p><strong>Last Name:</strong>
+                        <%= user.lastName %>
+                    </p>
+                    <p><strong>Email:</strong>
+                        <%= user.email %>
+                    </p>
+                    <p><strong>Address:</strong>
+                        <%= user.address %>
+                    </p>
+                    <a href="/" class="btn btn-secondary">Back</a>
+        </div>
+    </div>
+</body>
+
+</html>
