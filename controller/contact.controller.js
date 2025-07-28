@@ -1,33 +1,87 @@
+import mongoose from "mongoose";
 import Contact from "../models/contact.model.js";
 
 // Get all contacts
 export const getContacts = async (req, res) => {
-  const contacts = await Contact.find();
-  res.render("home", { contacts });
+  try {
+    const contacts = await Contact.find();
+    res.render("home", { contacts });
+  } catch (error) {
+    console.error("Error fetching contacts:", error);
+    res.status(500).render("500", { message: "Failed to load contacts." });
+  }
 };
 
 // Get single contact for view
 export const getContact = async (req, res) => {
-  const user = await Contact.findById(req.params.id);
-  res.render("view-contact", { user });
+  const id = req.params.id;
+
+  if (!mongoose.isValidObjectId(id)) {
+    return res
+      .status(400)
+      .render("500", { message: "Invalid contact ID format." });
+  }
+
+  try {
+    const user = await Contact.findById(id);
+    if (!user) {
+      return res.status(404).render("404", { message: "Contact not found." });
+    }
+    res.render("view-contact", { user });
+  } catch (error) {
+    console.error("Error retrieving contact:", error);
+    res.status(500).render("500", { message: "Error retrieving contact." });
+  }
 };
 
 // Get form to edit contact
 export const getEditContact = async (req, res) => {
-  const user = await Contact.findById(req.params.id);
-  res.render("edit-contact", { user });
+  const id = req.params.id;
+
+  if (!mongoose.isValidObjectId(id)) {
+    return res
+      .status(400)
+      .render("500", { message: "Invalid contact ID format." });
+  }
+
+  try {
+    const user = await Contact.findById(id);
+    if (!user) {
+      return res.status(404).render("404", { message: "Contact not found." });
+    }
+    res.render("edit-contact", { user });
+  } catch (error) {
+    console.error("Error loading edit form:", error);
+    res
+      .status(500)
+      .render("500", { message: "Error loading contact for editing." });
+  }
 };
 
 // Update contact (POST)
 export const postEditContact = async (req, res) => {
+  const id = req.params.id;
+
+  if (!mongoose.isValidObjectId(id)) {
+    return res
+      .status(400)
+      .render("500", { message: "Invalid contact ID format." });
+  }
+
   const { firstName, lastName, email, address } = req.body;
-  await Contact.findByIdAndUpdate(req.params.id, {
-    firstName,
-    lastName,
-    email,
-    address,
-  });
-  res.redirect("/");
+
+  try {
+    await Contact.findByIdAndUpdate(id, {
+      firstName,
+      lastName,
+      email,
+      address,
+    });
+    res.redirect("/");
+  } catch (error) {
+    console.error("Error updating contact:", error);
+    res.status(500).render("500", { message: "Failed to update contact." });
+  }
 };
 
 // Get form to add new contact
@@ -38,13 +92,32 @@ export const getAddContact = (req, res) => {
 // Add new contact (POST)
 export const postAddContact = async (req, res) => {
   const { firstName, lastName, email, address } = req.body;
-  const newContact = new Contact({ firstName, lastName, email, address });
-  await newContact.save();
-  res.redirect("/");
+
+  try {
+    const newContact = new Contact({ firstName, lastName, email, address });
+    await newContact.save();
+    res.redirect("/");
+  } catch (error) {
+    console.error("Error saving contact:", error);
+    res.status(500).render("500", { message: "Failed to add new contact." });
+  }
 };
 
 // Delete contact
 export const deleteContact = async (req, res) => {
-  await Contact.findByIdAndDelete(req.params.id);
-  res.redirect("/");
+  const id = req.params.id;
+
+  if (!mongoose.isValidObjectId(id)) {
+    return res
+      .status(400)
+      .render("500", { message: "Invalid contact ID format." });
+  }
+
+  try {
+    await Contact.findByIdAndDelete(id);
+    res.redirect("/");
+  } catch (error) {
+    console.error("Error deleting contact:", error);
+    res.status(500).render("500", { message: "Failed to delete contact." });
+  }
 };
