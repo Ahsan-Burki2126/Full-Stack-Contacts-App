@@ -62,6 +62,23 @@
             </tbody>
 
         </table>
+        <nav aria-label="...">
+            <ul class="pagination justify-content-center">
+                <% let disabledClass=hasPrevPage ? "" : "disabled" %>
+                    <li class="page-item <%= disabledClass %>">
+                        <a class="page-link" href="/?page=<%=prevPage %>">Previous</a>
+                    </li>
+                    <% for(let i=1; i<=totalPages;i++){ let activeClass=currentPage==i ? "active" :"" %>
+                        <li class="page-item <%= activeClass %>"><a class="page-link" href="/?page=<%=i%>">
+                                <%= i %>
+                            </a></li>
+                        <% } %>
+                            <li class="page-item">
+                                <% let toggleNextPage=hasNextPage ? "" : "disabled" %>
+                                    <a class="page-link <%= toggleNextPage %>" href="/?page=<%=nextPage %>">Next</a>
+                            </li>
+            </ul>
+        </nav>
     </div>
 </body>
 

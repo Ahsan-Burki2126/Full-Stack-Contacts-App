@@ -4,8 +4,25 @@ import Contact from "../models/contact.model.js";
 // Get all contacts
 export const getContacts = async (req, res) => {
   try {
-    const contacts = await Contact.find();
-    res.render("home", { contacts });
+    const { page = 1, limit = 3 } = req.query;
+
+    const options = {
+      page: parseInt(page),
+      limit: parseInt(limit),
+    };
+    const result = await Contact.paginate({}, options);
+    res.render("home", {
+      totalDocs: result.totalDocs,
+      limit: result.limit,
+      totalPages: result.totalPages,
+      currentPage: result.page,
+      counter: result.pagingCounter,
+      hasPrevPage: result.hasPrevPage,
+      hasNextPage: result.hasNextPage,
+      prevPage: result.prevPage,
+      nextPage: result.nextPage,
+      contacts: result.docs,
+    });
   } catch (error) {
     console.error("Error fetching contacts:", error);
     res.status(500).render("500", { message: "Failed to load contacts." });
